@@ -1,108 +1,162 @@
-import 'package:covid_19_app/covid_19.dart';
+import 'package:covid_19_app/patient_profile.dart';
+import 'package:covid_19_app/phr_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import './covid_19.dart';
+import 'complaint.dart';
+import 'covid_cases.dart';
 
-void main() => runApp(
-  MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: HomePage()
-  )
-);
-
-class HomePage extends StatefulWidget {
+class PatientHomeScreen extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _SampleState createState() => new _SampleState();
 }
 
-class _HomePageState extends State<HomePage> {
-
-  final List<String> _listItem = [
-    'assets/logos/facebook.jpg',
-    'assets/logos/google.jpg',
-    'assets/logos/facebook.jpg',
-    'assets/logos/google.jpg',
-    'assets/logos/facebook.jpg',
-    'assets/logos/google.jpg',
-    'assets/logos/facebook.jpg',
-    'assets/logos/google.jpg',
-    'assets/logos/facebook.jpg',
-  ];
-
+class _SampleState extends State<PatientHomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Covid_19.themecolor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Icon(Icons.menu),
-        title: Text("Dashboard"),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Container(
-              width: 36,
-              height: 30,
-              decoration: BoxDecoration(
-                color: Colors.grey[800],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(child: Text("0")),
-            ),
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-         Container(
-          decoration: BoxDecoration(image: DecorationImage(
-          image: AssetImage("assets/backgrounds/mc7.jpg"),
-          fit: BoxFit.fill)),
-            ),
-         SafeArea(
-          child: Container(
-            padding: EdgeInsets.all(20.0),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  width: double.infinity,
-                  height: 150,
-                  child: Center(child:Text(Covid_19.name,style: TextStyle(fontSize: 40,fontWeight: FontWeight.bold),),),
-                ),
-                SizedBox(height: 20,),
-                Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    children: _listItem.map((item) => Card(
-                      color: Colors.transparent,
-                      elevation: 0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          image: DecorationImage(
-                            image: AssetImage(item),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                          child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: 5, vertical: 65),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.black
-                            ),
-                            child: Text('"Profile',style: TextStyle(color: Covid_19.themecolor),),
-                          ),
-                      ),
-                    )).toList(),
-                  )
-                )
-              ],
-            ),
-          ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Dashboard"),
+          backgroundColor: Covid_19.themecolor,
+          leading: IconButton(icon: Icon(Icons.menu), onPressed: null),
+          actions: [IconButton(icon: Icon(Icons.search), onPressed: null)],
         ),
-    ],
+        body:Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(image: DecorationImage(
+                  image: AssetImage("assets/backgrounds/mc7.jpg"),
+                  fit: BoxFit.fill)),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 70.0,right: 70.0,top: 10.0,bottom: 10.0),
+              child: Image.asset("assets/logos/logo.png"),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 250.0,left: 10.0,right: 10.0),
+              child: GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 4.0,
+                mainAxisSpacing: 8.0,
+                children: <Widget>[
+                  FlatButton(
+                    onPressed:(){
+                      print('Profile Button Pressed');
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return Patient_Profile();
+                      }));
+                    },
+                    child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Image.asset("assets/icons/profile.png",
+                                height: 100.0,
+                                width: 100.0,),
+                            ),
+                            Center(
+                              child: Text("Profile"),
+                            )
+                          ],
+                        )
+                    ),
+                  ),
+                  FlatButton(
+                    onPressed:(){
+                      print('PHR Button Pressed');
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return PHR_details();
+                      }));
+                    },
+                    child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Image.asset("assets/icons/phr.png",
+                                height: 100.0,
+                                width: 100.0,),
+                            ),
+                            Center(
+                              child: Text("PHR"),
+                            )
+                          ],
+                        )
+                    ),
+                  ),
+                  FlatButton(
+                    onPressed:(){
+                      print('Covid_cases Button Pressed');
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return Covid_cases();
+                      }));
+                    },
+                    child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Image.asset("assets/icons/covid.png",
+                                height: 100.0,
+                                width: 100.0,),
+                            ),
+                            Center(
+                              child: Text("Covid Cases"),
+                            )
+                          ],
+                        )
+                    ),
+                  ),
+                  FlatButton(
+                    onPressed:(){
+                      print('Complaint Button Pressed');
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return Complaint_post();
+                      }));
+                    },
+                    child: Container(
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Image.asset("assets/icons/writecomplaint.png",
+                                height: 100.0,
+                                width: 100.0,),
+                            ),
+                            Center(
+                              child: Text("complaints"),
+                            )
+                          ],
+                        )
+                    ),
+                  ),
+                  Container(
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Image.asset("assets/icons/logout.png",
+                              height: 100.0,
+                              width: 100.0,),
+                          ),
+                          Center(
+                            child: Text("Logout"),
+                          )
+                        ],
+                      )
+                  ),
+                ],
+
+              ),),
+
+
+
+          ],
+        ) ,
       ),
     );
   }

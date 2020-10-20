@@ -1,127 +1,144 @@
+import 'package:covid_19_app/asha_profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-void main() => runApp(
-  MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: AshaHomeScreen()
-  )
-);
+import 'package:fluttertoast/fluttertoast.dart';
+import './covid_19.dart';
+import 'asha_complaint_list.dart';
+import 'covid_cases.dart';
 
 class AshaHomeScreen extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _SampleState createState() => new _SampleState();
 }
 
-class _HomePageState extends State<AshaHomeScreen> {
-
-  final List<String> _listItem = [
-    'assets/logos/logo.png',
-  ];
-
+class _SampleState extends State<AshaHomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[600],
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Icon(Icons.menu),
-        title: Text("Home"),
-        actions: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Container(
-              width: 36,
-              height: 30,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Dashboard"),
+          backgroundColor: Covid_19.themecolor,
+          leading: IconButton(icon: Icon(Icons.menu), onPressed: null),
+          actions: [IconButton(icon: Icon(Icons.search), onPressed: null)],
+        ),
+        body: Stack(
+          children: [
+            Container(
               decoration: BoxDecoration(
-                color: Colors.grey[800],
-                borderRadius: BorderRadius.circular(10)
-              ),
-              child: Center(child: Text("0")),
-            ),
-          )
-        ],
-      ),
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            children: <Widget>[
-              Container(
-                width: double.infinity,
-                height: 250,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
                   image: DecorationImage(
-                    image: AssetImage('assets/logos/logo.png'),
-                    fit: BoxFit.cover
-                  )
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomRight,
-                      colors: [
-                        Colors.black.withOpacity(.4),
-                        Colors.black.withOpacity(.2),
-                      ]
-                    )
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text("Lifestyle Sale", style: TextStyle(color: Colors.white, fontSize: 35, fontWeight: FontWeight.bold),),
-                      SizedBox(height: 30,),
-                      Container(
-                        height: 50,
-                        margin: EdgeInsets.symmetric(horizontal: 40),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white
-                        ),
-                        child: Center(child: Text("Shop Now", style: TextStyle(color: Colors.grey[900], fontWeight: FontWeight.bold),)),
-                      ),
-                      SizedBox(height: 30,),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 20,),
-              Expanded(
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  children: _listItem.map((item) => Card(
-                    color: Colors.transparent,
-                    elevation: 0,
+                      image: AssetImage("assets/backgrounds/mc7.jpg"),
+                      fit: BoxFit.fill)),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 70.0, right: 70.0, top: 10.0, bottom: 10.0),
+              child: Image.asset("assets/logos/logo.png"),
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(top: 250.0, left: 10.0, right: 10.0),
+              child: GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 4.0,
+                mainAxisSpacing: 8.0,
+                children: <Widget>[
+                  FlatButton(
+                    onPressed: () {
+                      print('Profile Button Pressed');
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return Asha_Profile();
+                      }));
+                    },
                     child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                          image: AssetImage(item),
-                          fit: BoxFit.cover
-                        )
-                      ),
-                      child: Transform.translate(
-                        offset: Offset(50, -50),
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 65, vertical: 63),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white
+                        child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Image.asset(
+                            "assets/icons/profile.png",
+                            height: 100.0,
+                            width: 100.0,
                           ),
-                          child: Icon(Icons.bookmark_border, size: 15,),
+                        ),
+                        Center(
+                          child: Text("Profile"),
+                        )
+                      ],
+                    )),
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      print('Covid cases Button Pressed');
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                            return Covid_cases();
+                          }));
+                    },
+                    child: Container(
+                        child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Image.asset(
+                            "assets/icons/covid.png",
+                            height: 100.0,
+                            width: 100.0,
+                          ),
+                        ),
+                        Center(
+                          child: Text("Covid Cases"),
+                        )
+                      ],
+                    )),
+                  ),
+                  FlatButton(
+                    onPressed: () {
+                      print('View Complaint Button Pressed');
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                            return Complaint_view();
+                          }));
+                    },
+                    child: Container(
+                        child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Image.asset(
+                            "assets/icons/complaint.png",
+                            height: 100.0,
+                            width: 100.0,
+                          ),
+                        ),
+                        Center(
+                          child: Text("View Complaint"),
+                        )
+                      ],
+                    )),
+                  ),
+                  Container(
+                      child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Image.asset(
+                          "assets/icons/logout.png",
+                          height: 100.0,
+                          width: 100.0,
                         ),
                       ),
-                    ),
-                  )).toList(),
-                )
-              )
-            ],
-          ),
+                      Center(
+                        child: Text("Logout"),
+                      )
+                    ],
+                  )),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

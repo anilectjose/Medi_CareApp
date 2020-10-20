@@ -163,7 +163,7 @@ class _SignUpState extends State<SignUp> {
         onPressed: () {
           print('Account Created');
           Navigator.push(context, MaterialPageRoute(builder: (context){
-            return HomePage();
+            return PatientHomeScreen();
           }));
           Fluttertoast.showToast(
               msg: "Account created",

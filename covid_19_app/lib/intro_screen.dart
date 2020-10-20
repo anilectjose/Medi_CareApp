@@ -3,17 +3,10 @@ import './covid_19.dart';
 import 'package:flutter/material.dart';
 import './login_page.dart';
 
-void main() {
-  runApp(IntroScreen());
-}
-
 class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      routes: <String,WidgetBuilder>{
-        '/loginpage':(BuildContext context)=>new LoginScreen()
-      },
       home: Home(),
       debugShowCheckedModeBanner: false,
     );
@@ -54,9 +47,9 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      /*decoration: BoxDecoration(
           gradient: LinearGradient(
-              colors: [const Color(0xff3C8CE7), const Color(0xff00EAFF)])),
+              colors: [const Color(0xff3C8CE7), const Color(0xff00EAFF)])),*/
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Container(
@@ -124,7 +117,10 @@ class _HomeState extends State<Home> {
         ): InkWell(
           onTap: (){
             print("Get Started Now");
-            Navigator.of(context).pushNamed('/loginpage');
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => LoginScreen()),
+            );
           },
           child: Container(
             height: Platform.isIOS ? 50 : 60,

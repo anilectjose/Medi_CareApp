@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import './covid_19.dart';
-import './my_navigator.dart';
+import 'intro_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -14,7 +14,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 5), () => MyNavigator.goToIntro(context));
+    Timer(Duration(seconds: 5), () =>  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+      return IntroScreen();
+      Navigator.pop(context);
+    })));
   }
 
   @override
