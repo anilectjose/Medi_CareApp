@@ -1,6 +1,9 @@
+import 'dart:convert';
 
 import 'package:covid_19_app/covid_19.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import './sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,9 +15,40 @@ class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
-
+enum LoginStatus { notSignIn, signIn }
 class _LoginScreenState extends State<LoginScreen> {
+  LoginStatus _loginStatus = LoginStatus.notSignIn;
   bool _rememberMe = false;
+  String email="babu", password="babu";
+
+  login() async {
+    final response = await http
+        .post("http://192.168.1.5/MediCare/api/login.php", body: {
+      "email": "babu",
+      "password": "babu",
+    });
+
+    final data = jsonDecode(response.body);
+    int value = data['value'];
+    String message = data['message'];
+    String emailAPI = data['email'];
+    String id = data['id'];
+
+    if (value == 1) {
+      print(message);
+
+    }else {
+      print("fail");
+      print(message);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
 
   Widget _buildEmailTF() {
     return Column(
@@ -29,7 +63,8 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 50.0,
-          child: TextField(
+          child: TextFormField(
+            onSaved: (e) => email = e,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
               color: Colors.black87,
@@ -64,7 +99,8 @@ class _LoginScreenState extends State<LoginScreen> {
           alignment: Alignment.centerLeft,
           decoration: kBoxDecorationStyle,
           height: 50.0,
-          child: TextField(
+          child: TextFormField(
+            onSaved: (e) => password = e,
             obscureText: true,
             style: TextStyle(
               color: Colors.black87,
@@ -144,13 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 5.0,
         onPressed: () {
           print('Login Button Pressed');
-            Navigator.push(context, MaterialPageRoute(builder: (context){
-              return HomeScreen();
-            }));
-            Fluttertoast.showToast(
-                msg: "Succesfully Logged in",
-                textColor: Colors.black
-            );
+          login();
         },
         padding: EdgeInsets.all(12.0),
         shape: RoundedRectangleBorder(
@@ -206,6 +236,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    switch (_loginStatus) {
+      case LoginStatus.notSignIn:
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: <String,WidgetBuilder>{
@@ -219,21 +251,6 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Stack(
               children: <Widget>[
                 Container(
-                 /* height: double.infinity,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xFF73AEF5),
-                        Color(0xFF61A4F1),
-                        Color(0xFF478DE0),
-                        Color(0xFF398AE5),
-                      ],
-                      stops: [0.1, 0.4, 0.7, 0.9],
-                    ),
-                  ),*/
                   decoration: BoxDecoration(image: DecorationImage(
                       image: AssetImage("assets/backgrounds/mc7.jpg"),
                       fit: BoxFit.fill)),
@@ -278,5 +295,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+    break;
+
+      case LoginStatus.signIn:
+        return HomeScreen();
+//        return ProfilePage(signOut);
+        break;
+    }
   }
 }

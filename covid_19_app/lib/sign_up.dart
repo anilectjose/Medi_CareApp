@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import './utilities/constants.dart';
 import './login_page.dart';
 import 'covid_19.dart';
+import 'nurse_homescreen.dart';
 import 'patient_homescreen.dart';
 
 class SignUp extends StatefulWidget {
@@ -194,7 +195,7 @@ class _SignUpState extends State<SignUp> {
       onTap: () {
         print('Sign In Button Pressed');
         Navigator.push(context, MaterialPageRoute(builder: (context){
-          return LoginScreen();
+          return Nurse_Homescreen();
         }));
       },
       child: RichText(

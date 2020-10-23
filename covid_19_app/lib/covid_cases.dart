@@ -81,7 +81,7 @@ class _Covid_casesState extends State<Covid_cases> {
                                             name[index],
                                             style: TextStyle(
                                                 fontWeight: FontWeight.bold,
-                                                fontSize: 25),
+                                                fontSize: 20),
                                           ),
                                           SizedBox(
                                             height: 5,
